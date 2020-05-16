@@ -1,0 +1,1 @@
+# rubik2x2Solver
