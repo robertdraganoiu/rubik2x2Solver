@@ -52,7 +52,7 @@ notMatch ((_, fr1), (_, fr2)) = not $ (length [(n1, n2) | n1 <- fr1, n2 <- fr2, 
 
 -- drops first element until frontiers intersect
 dropUntilMatch :: Eq s => [(([Node s a], [Node s a]), ([Node s a], [Node s a]))] -> [(([Node s a], [Node s a]), ([Node s a], [Node s a]))]
-dropUntilMatch streams = dropWhile (notMatch) streams
+dropUntilMatch streams = dropWhile notMatch streams
 
 bidirBFS :: Eq s => Node s a -> Node s a -> (Node s a, Node s a)
 bidirBFS start win = solution $ head $ dropUntilMatch streams

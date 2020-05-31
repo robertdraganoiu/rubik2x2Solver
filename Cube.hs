@@ -21,7 +21,7 @@ oppositeColor Orange = Red
 
 --- cube definitions
 type Cubie = [Color]
-data Cube = MakeCube { getCubeArr :: A.Array (Int, Int, Int) Cubie } deriving (Show, Eq)
+newtype Cube = MakeCube { getCubeArr :: A.Array (Int, Int, Int) Cubie } deriving (Show, Eq)
 
 --- move definitions
 data Move = R | R' | R2 | U | U' | U2 | F | F' | F2 deriving (Show, Eq, Read)
@@ -55,6 +55,18 @@ moveFunction U2 = u2
 moveFunction F = f
 moveFunction F' = f'
 moveFunction F2 = f2
+
+--- merge moves of the same type in sequence
+mergeMoves :: [Move] -> [Move]
+mergeMoves [] = []
+mergeMoves [move] = [move]
+mergeMoves moves
+    | head moves == ((head . drop 1) moves) = ((read . (++ "2") . show . head) moves) : (mergeMoves $ drop 2 moves) --- same move
+    | head moves == oppositeMove ((head . drop 1) moves) = mergeMoves $ drop 2 moves --- opposite moves
+    | (moveFunction . head) moves (((moveFunction . head . drop 1) moves) solved2x2) ==  --- make complement of moves
+        (moveFunction . oppositeMove . head) moves solved2x2 = 
+            ((oppositeMove . head) moves) : (mergeMoves $ drop 2 moves)
+    | otherwise = (take 2 moves) ++ (mergeMoves $ drop 2 moves)
 
 ------ rotate cubie functions ------
 rotateX :: (Coords, Cubie) -> (Int -> Int -> Bool) -> (Coords, Cubie)
