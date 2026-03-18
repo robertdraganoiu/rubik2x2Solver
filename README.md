@@ -1,6 +1,6 @@
 # 2x2 Rubik's Cube Solver
 
-A Haskell solver for the 2x2 Rubik's Cube (Pocket Cube) using bidirectional BFS.
+A Haskell solver for the 2x2 Rubik's Cube using bidirectional BFS.
 
 ## How It Works
 
